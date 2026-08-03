@@ -1,19 +1,12 @@
-// ============================================================
-// sw.js - Service Worker للتجربة
-// ============================================================
-
 const CACHE_NAME = 'syria-tourism-v1';
 const urlsToCache = [
-    '/',
-    '/index.html',
-    '/manifest.json',
-    '/icons/icon-192x192.png',
-    '/icons/icon-512x512.png'
+    './',
+    './index.html',
+    './manifest.json',
+    './icons/icon-192x192.png',
+    './icons/icon-512x512.png'
 ];
 
-// ============================================================
-// 1️⃣ تثبيت Service Worker وتخزين الملفات
-// ============================================================
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
@@ -25,9 +18,6 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// ============================================================
-// 2️⃣ تنشيط Service Worker
-// ============================================================
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
@@ -43,26 +33,17 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// ============================================================
-// 3️⃣ التحكم في طلبات الشبكة (Fetch)
-// ============================================================
 self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request)
             .then((response) => {
-                // إذا وجد في الكاش، ارجعه
                 if (response) {
                     return response;
                 }
-                // وإلا، اجلبه من الشبكة
-                return fetch(event.request).then((response) => {
-                    // لا نخزن كل شيء، فقط الملفات الأساسية
-                    return response;
-                });
+                return fetch(event.request);
             })
             .catch(() => {
-                // إذا فشل كل شيء، ارجع صفحة بديلة (اختياري)
-                // return caches.match('/offline.html');
+                // يمكنك إضافة صفحة offline.html هنا
             })
     );
 });
