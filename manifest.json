@@ -1,0 +1,23 @@
+{
+  "name": "سوريا السياحية - اكتشف الجمال",
+  "short_name": "سوريا السياحية",
+  "description": "اكتشف أجمل المدن والمعالم السياحية في سوريا",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a7e3d",
+  "theme_color": "#0a7e3d",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

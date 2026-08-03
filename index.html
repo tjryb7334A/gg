@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>سوريا السياحية - اكتشف الجمال</title>
+
+    <!-- ====== ربط ملف Manifest للـ PWA ====== -->
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- ====== أيقونات للـ PWA ====== -->
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
+    <meta name="theme-color" content="#0a7e3d" />
+
+    <!-- ====== Font Awesome ====== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- ====== Google Fonts ====== -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: #f4f7f6;
+            color: #1e293b;
+            direction: rtl;
+            padding-bottom: 70px;
+        }
+
+        /* ====== شريط التطبيق العلوي (مثل تطبيق حقيقي) ====== */
+        .app-bar {
+            background: #0a7e3d;
+            color: #fff;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .app-bar h1 {
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .app-bar i {
+            font-size: 22px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .app-bar i:hover {
+            opacity: 0.7;
+        }
+
+        /* ====== الهيرو ====== */
+        .hero {
+            background: linear-gradient(135deg, #0a7e3d, #0d9e4e);
+            color: #fff;
+            text-align: center;
+            padding: 40px 20px 30px;
+            border-radius: 0 0 40px 40px;
+            margin-bottom: 20px;
+        }
+
+        .hero h2 {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 6px;
+        }
+
+        .hero p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .hero .icon-big {
+            font-size: 50px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* ====== بطاقات المدن ====== */
+        .container {
+            padding: 0 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .city-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            transition: 0.3s;
+            border: 1px solid #e9edf0;
+            cursor: pointer;
+        }
+
+        .city-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .city-card .city-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: #e6f0ea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+            color: #0a7e3d;
+        }
+
+        .city-card .city-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .city-card .city-info p {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* ====== زر التثبيت ====== */
+        .install-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0a7e3d;
+            color: #fff;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            box-shadow: 0 8px 28px rgba(10, 126, 61, 0.35);
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Tajawal', sans-serif;
+            z-index: 200;
+        }
+
+        .install-btn:hover {
+            transform: translateX(-50%) scale(1.03);
+            background: #0d9e4e;
+        }
+
+        .install-btn.hidden {
+            display: none;
+        }
+
+        /* ====== الفوتر ====== */
+        .footer {
+            text-align: center;
+            padding: 24px 16px 10px;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        /* ====== تحسين للهواتف ====== */
+        @media (max-width: 400px) {
+            .hero h2 {
+                font-size: 22px;
+            }
+            .city-card .city-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+            .app-bar h1 {
+                font-size: 17px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== شريط التطبيق ====== -->
+    <div class="app-bar">
+        <i class="fa-solid fa-bars"></i>
+        <h1><i class="fa-solid fa-flag" style="margin-left: 8px;"></i> سوريا السياحية</h1>
+        <i class="fa-regular fa-heart"></i>
+    </div>
+
+    <!-- ====== الهيرو ====== -->
+    <div class="hero">
+        <span class="icon-big">🇸🇾</span>
+        <h2>اكتشف جمال سوريا</h2>
+        <p>أشهر المدن والمعالم السياحية في سوريا</p>
+    </div>
+
+    <!-- ====== قائمة المدن ====== -->
+    <div class="container">
+
+        <div class="city-card">
+            <div class="city-icon">🏛️</div>
+            <div class="city-info">
+                <h3>دمشق</h3>
+                <p>أقدم عاصمة مأهولة في التاريخ</p>
+            </div>
+        </div>
+
+        <div class="city-card">
+            <div class="city-icon">🏰</div>
+            <div class="city-info">
+                <h3>حلب</h3>
+                <p>مدينة التاريخ والقلعة الشهباء</p>
+            </div>
+        </div>
+
+        <div class="city-card">
+            <div class="city-icon">🌊</div>
+            <div class="city-info">
+                <h3>اللاذقية</h3>
+                <p>شواطئ البحر الأبيض المتوسط</p>
+            </div>
+        </div>
+
+        <div class="city-card">
+            <div class="city-icon">🏝️</div>
+            <div class="city-info">
+                <h3>طرطوس</h3>
+                <p>مدينة البحر والقلعة الفاطمية</p>
+            </div>
+        </div>
+
+        <div class="city-card">
+            <div class="city-icon">🌿</div>
+            <div class="city-info">
+                <h3>حمص</h3>
+                <p>مدينة الحضارات القديمة</p>
+            </div>
+        </div>
+
+        <div class="city-card">
+            <div class="city-icon">⛰️</div>
+            <div class="city-info">
+                <h3>السويداء</h3>
+                <p>طبيعة خلابة وجبال الدروز</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <i class="fa-regular fa-compass"></i> استكشف سوريا بعيون جديدة
+            <br />
+            <span style="font-size: 11px; color: #cbd5e1;">© 2026 اكتشف سوريا</span>
+        </div>
+
+    </div>
+
+    <!-- ====== زر التثبيت ====== -->
+    <button id="installBtn" class="install-btn hidden">
+        <i class="fa-solid fa-download"></i> تثبيت التطبيق
+    </button>
+
+    <!-- ============================================================ -->
+    <!-- ====== جافا سكربت الـ PWA ====== -->
+    <!-- ============================================================ -->
+    <script>
+        // ============================================================
+        // 1️⃣ تسجيل Service Worker
+        // ============================================================
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('✅ Service Worker registered successfully!'))
+                .catch((err) => console.log('❌ Service Worker registration failed:', err));
+        }
+
+        // ============================================================
+        // 2️⃣ زر التثبيت (PWA Install Prompt)
+        // ============================================================
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.classList.remove('hidden');
+            console.log('✅ قبل التثبيت - تم تفعيل الزر');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const result = await deferredPrompt.userChoice;
+                console.log('✅ نتيجة التثبيت:', result.outcome);
+                deferredPrompt = null;
+                installBtn.classList.add('hidden');
+            }
+        });
+
+        // ============================================================
+        // 3️⃣ عند نجاح التثبيت
+        // ============================================================
+        window.addEventListener('appinstalled', () => {
+            console.log('✅ تم تثبيت التطبيق بنجاح! 🎉');
+            installBtn.classList.add('hidden');
+        });
+
+        // ============================================================
+        // 4️⃣ كشف وضع التثبيت (Standalone)
+        // ============================================================
+        if (window.navigator.standalone === true) {
+            console.log('✅ التطبيق يعمل في وضع Standalone');
+        }
+
+        console.log('🚀 PWA for Syria Tourism - ready!');
+    </script>
+
+</body>
+</html>
